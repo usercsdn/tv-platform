@@ -1,0 +1,64 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script src="https://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://how2j.cn/study/vue.min.js"></script>
+    <script src="./list.js"></script>
+    <style type="text/css">
+        td{
+        	border:1px solid gray;
+        }
+        
+        table{
+        	border-collapse:collapse;
+        }
+	
+		div#app{
+			margin:20px auto;
+			width:400px;
+			padding:20px;
+		}        
+    </style>
+</head>
+
+<body>
+    <div id="app">
+            <table id="heroListTable" >
+                <thead>
+                    <tr>
+                        <th>英雄名称</th>
+                        <th>血量</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="hero in heros ">
+                    	<td>{{hero.name}}</td>
+                    	<td>{{hero.hp}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+    </div>
+<!-- 
+<script type="text/javascript">
+	//Model
+	var data = {
+	    heros: [
+	    { id: 1, name: '盖伦', hp: 318},
+	    { id: 2, name: '提莫', hp: 320},
+	    { id: 3, name: '安妮', hp: 419},
+	    { id: 4, name: '死歌', hp: 325},
+	    { id: 5, name: '米波', hp: 422},
+	    ],
+	    hero4Add: { id: 0, name: '', hp: '0'},
+	    hero4Update: { id: 0, name: '', hp: '0'}
+	};
+        
+    //ViewModel
+    var vue = new Vue({
+        el: '#app',
+        data: data
+    });
+</script> -->
+</body>
+</html>
