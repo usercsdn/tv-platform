@@ -1,1 +1,1 @@
-test
+设置elasticSearch打印查询日志：https://blog.csdn.net/weixin_43549350/article/details/116322865?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_title-1&spm=1001.2101.3001.4242

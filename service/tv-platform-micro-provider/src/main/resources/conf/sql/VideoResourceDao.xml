@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taozi.tv.dao.VideoResourceDao">
+
+	<resultMap id="VideoResourceResult" type="com.taozi.tv.dao.bean.VideoResource">
+		<result property="id" column="id" />
+		<result property="parseConfId" column="parse_conf_id" />
+		<result property="name" column="name" />
+		<result property="type" column="type" />
+		
+		<result property="highQualityLevel" column="high_quality_level" />
+		<result property="videoIsExpired" column="video_is_expired" />
+		<result property="videoExpiredTime" column="video_expired_time" />
+		<result property="tagId" column="tag_id" />
+		<result property="tagName" column="tag_name" />
+		<result property="pageUrl" column="page_url" />
+		<result property="videoUrl" column="video_url" />
+		<result property="videoImage" column="video_image" />
+		<result property="duration" column="duration" />
+		<result property="durationFormat" column="duration_format" />
+		<result property="likeCount" column="like_count" />
+		<result property="activeStatus" column="active_status" />
+		<result property="nameSha1" column="name_sha1" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+	<insert id="create" parameterType="com.taozi.tv.dao.bean.VideoResource"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_video_resource (parse_conf_id,name, type,high_quality_level,
+		page_url, video_url,video_image, duration,duration_format, like_count,active_status,name_sha1,
+		create_time, modify_time)
+		VALUES (#{parseConfId, jdbcType=NUMERIC},#{name, jdbcType=VARCHAR}, #{type,
+		jdbcType=VARCHAR}, #{highQualityLevel, jdbcType=NUMERIC}, #{pageUrl, jdbcType=VARCHAR}, #{videoUrl,
+		jdbcType=VARCHAR},#{videoImage, jdbcType=VARCHAR}, #{duration, jdbcType=NUMERIC},#{durationFormat, jdbcType=VARCHAR}, #{likeCount,
+		jdbcType=NUMERIC}, #{activeStatus, jdbcType=NUMERIC}, #{nameSha1, jdbcType=VARCHAR}, now(),now())
+	</insert>
+
+	<select id="getOne" resultMap="VideoResourceResult" useCache="false">
+		SELECT * FROM t_video_resource t where 1=1
+		<include refid="commonQuerySQL" />
+		order by create_time desc limit 0,1
+	</select>
+	<select id="query" resultMap="VideoResourceResult" useCache="false"
+		parameterType="com.taozi.tv.dao.bean.VideoResource">
+		SELECT *
+		FROM t_video_resource t where 1=1
+		<include refid="commonQuerySQL" />
+		ORDER BY ID DESC
+	</select>
+	
+	<select id="queryByPage" resultMap="VideoResourceResult" useCache="false"
+		parameterType="com.taozi.tv.dao.bean.VideoResource">
+		SELECT *
+		FROM t_video_resource t where 1=1
+		<include refid="commonQuerySQL" />
+		ORDER BY ${orderType} ${descType}
+		limit ${beginNum},${endNum}
+	</select>
+	
+	<update id="update" parameterType="com.taozi.tv.dao.bean.VideoResource">
+		UPDATE t_video_resource
+		SET
+		parse_conf_id=#{parseConfId, jdbcType=NUMERIC},name=#{name, jdbcType=VARCHAR},type= #{type,
+		jdbcType=VARCHAR},high_quality_level= #{highQualityLevel, jdbcType=NUMERIC},page_url= #{pageUrl, jdbcType=VARCHAR}, video_url=#{videoUrl,
+		jdbcType=VARCHAR}, video_image=#{videoImage, jdbcType=VARCHAR},duration=#{duration, jdbcType=NUMERIC},duration_format=#{durationFormat, jdbcType=VARCHAR}, like_count=#{likeCount,
+		jdbcType=NUMERIC},active_status= #{activeStatus, jdbcType=NUMERIC},name_sha1= #{nameSha1, jdbcType=VARCHAR},modify_time=now()
+		WHERE ID =#{id}
+	</update>
+	
+	<sql id="commonQuerySQL">
+		<if test="id!=null">
+			and t.id =#{id}
+		</if>
+		<if test="parseConfId!=null">
+			and t.parse_conf_id =#{parseConfId}
+		</if>
+		<if test="nameSha1!=null and nameSha1!='' ">
+			and t.name_sha1 =#{nameSha1}
+		</if>
+		<if test="pageUrl!=null and pageUrl!='' ">
+			and t.page_url =#{pageUrl}
+		</if>
+		<if test="activeStatus!=null">
+			and t.active_status =#{activeStatus}
+		</if>
+		<if test="name!=null and name!='' ">
+			and t.name=#{name}
+		</if>
+		<if test="highQualityLevel!=null">
+			and t.high_quality_level=#{highQualityLevel}
+		</if>
+		
+	</sql>
+</mapper>

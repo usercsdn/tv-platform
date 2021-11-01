@@ -1,0 +1,1 @@
+CreateObject("WScript.Shell").Run "cmd /c E:\practice\apache-zookeeper-3.5.5-bin\bin\zkServer.cmd",0

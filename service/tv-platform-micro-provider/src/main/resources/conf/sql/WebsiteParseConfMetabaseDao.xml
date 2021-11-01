@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taozi.tv.dao.WebsiteParseConfMetabaseDao">
+
+	<resultMap id="WebsiteParseConfMetabaseResult"
+		type="com.taozi.tv.dao.bean.WebsiteParseConfMetabase">
+		<result property="id" column="id" />
+		<result property="parseConfId" column="parse_conf_id" />
+		<result property="activeStatus" column="active_status" />
+		<result property="sortLevel" column="sort_level" />
+		<result property="metaLoadCss" column="meta_load_css" />
+		<result property="metaScreenCss" column="meta_screen_css" />
+		<result property="metaNextText" column="meta_next_text" />
+		<result property="metaNextSize" column="meta_next_size" />
+		<result property="metaVideoNameFilter" column="meta_video_name_filter" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+	<sql id="commonQuerySQL">
+		<if test="id!=null">
+			and t.id=#{id}
+		</if>
+		<if test="parseConfId!=null">
+			and t.parse_conf_id=#{parseConfId}
+		</if>
+		<if test="activeStatus!=null">
+			and t.active_status=#{activeStatus}
+		</if>
+		<if test="sortLevel!=null and sortLevel!='' ">
+			and t.sort_level=#{sortLevel}
+		</if>
+	</sql>
+
+	<insert id="create" parameterType="com.taozi.tv.dao.bean.WebsiteParseConfMetabase"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		T_WEBSITE_PARSE_CONF_METABASE ( parse_conf_id, active_status, sort_level,
+		meta_load_css, meta_screen_css, meta_next_text, meta_next_size,
+		meta_video_name_filter, create_time, modify_time)
+		VALUES (#{parseConfId,
+		jdbcType=NUMERIC}, #{activeStatus, jdbcType=NUMERIC}, #{sortLevel,
+		jdbcType=NUMERIC}, #{metaLoadCss, jdbcType=VARCHAR}, #{metaScreenCss,
+		jdbcType=VARCHAR}, #{metaNextText, jdbcType=VARCHAR}, #{metaNextSize,
+		jdbcType=NUMERIC}, #{metaVideoNameFilter, jdbcType=VARCHAR},now(),now())
+	</insert>
+
+	<select id="getOne" resultMap="WebsiteParseConfMetabaseResult"
+		useCache="false">
+		SELECT * FROM T_WEBSITE_PARSE_CONF_METABASE t where 1=1
+		<include refid="commonQuerySQL" />
+		limit 0,1
+	</select>
+	<select id="query" resultMap="WebsiteParseConfMetabaseResult"
+		useCache="false">
+		SELECT * FROM T_WEBSITE_PARSE_CONF_METABASE t where 1=1
+		<include refid="commonQuerySQL" />
+		ORDER BY sort_level DESC
+	</select>
+
+	<update id="update" parameterType="com.taozi.tv.dao.bean.WebsiteParseConfMetabase">
+		UPDATE T_WEBSITE_PARSE_CONF_METABASE
+		SET parse_conf_id=#{parseConfId, jdbcType=NUMERIC},
+		active_status=#{activeStatus, jdbcType=NUMERIC},
+		sort_level=#{sortLevel, jdbcType=NUMERIC},
+		meta_load_css=#{metaLoadCss,
+		jdbcType=VARCHAR}, meta_screen_css=#{metaScreenCss, jdbcType=VARCHAR},
+		meta_next_text=#{metaNextText, jdbcType=VARCHAR},
+		meta_next_size=#{metaNextSize, jdbcType=NUMERIC},
+		meta_video_name_filter=#{metaVideoNameFilter, jdbcType=VARCHAR},
+		modify_time=now()
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE FROM T_WEBSITE_PARSE_CONF_METABASE
+		WHERE id =
+		#{id}
+	</delete>
+
+</mapper>

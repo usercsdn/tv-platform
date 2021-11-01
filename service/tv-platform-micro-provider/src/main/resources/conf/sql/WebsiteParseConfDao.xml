@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taozi.tv.dao.WebsiteParseConfDao">
+
+	<resultMap id="WebsiteParseConfResult" type="com.taozi.tv.dao.bean.WebsiteParseConf">
+		<result property="id" column="id" />
+		<result property="name" column="name" />
+		<result property="url" column="url" />
+		<result property="highQualityLevel" column="high_quality_level" />
+		<result property="activeStatus" column="active_status" />
+		<result property="createTime" column="create_time" />
+		<result property="modifyTime" column="modify_time" />
+	</resultMap>
+
+	<insert id="create" parameterType="com.taozi.tv.dao.bean.WebsiteParseConf"
+		useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO t_website_parse_conf
+		(name, url,high_quality_level,
+		active_status,
+		create_time,
+		modify_time)
+		VALUES (#{name, jdbcType=VARCHAR}, #{url,
+		jdbcType=VARCHAR}, #{highQualityLevel,
+		jdbcType=NUMERIC},#{activeStatus, jdbcType=NUMERIC}, now(),now())
+	</insert>
+
+	<select id="getOne" resultMap="WebsiteParseConfResult" useCache="false">
+		SELECT * FROM t_website_parse_conf t where 1=1
+		<include refid="commonQuerySQL" />
+		order by create_time desc limit 0,1
+	</select>
+	<select id="query" resultMap="WebsiteParseConfResult" useCache="false"
+		parameterType="com.taozi.tv.dao.bean.WebsiteParseConf">
+		SELECT *
+		FROM t_website_parse_conf t where 1=1
+		<include refid="commonQuerySQL" />
+		ORDER BY ID DESC
+	</select>
+	<sql id="commonQuerySQL">
+		<if test="id!=null">
+			and t.id =#{id}
+		</if>
+		<if test="activeStatus!=null">
+			and t.active_status =#{activeStatus}
+		</if>
+		<if test="highQualityLevel!=null">
+			and t.high_quality_level =#{highQualityLevel}
+		</if>
+		<if test="name!=null and name!='' ">
+			and t.name=#{name}
+		</if>
+		
+	</sql>
+</mapper>
